@@ -17,13 +17,18 @@
 <body>
 <div>
     <div style="height: 400px; width: 50%; border: 3px #879AA8 solid">
-    <ul class="no-bullet">
-        <li th:each="message : ${messageList}" th:text="${message}"></li>
-    </ul>
+        <ul class="no-bullet">
+            <li th:each="message : ${messageList}">
+                <span th:text="${message}"></span>
+                <a th:href="@{'/download?message=' + ${message}}">Скачать</a>
+            </li>
+        </ul>
+
     </div>
     <form th:action="@{'/sendmessage/' + ${userid}}" method="POST">
         <input type="text" name="message" placeholder="Your message" autofocus="true">
         <button type="submit">Send Message</button>
+        <a th:href="@{'/downloadAll'}">Скачать всю переписку</a>
     </form>
 </div>
 </body>

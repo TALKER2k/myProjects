@@ -74,4 +74,14 @@ public class MessageRepository {
     public void setMessages(List<HashMap<String, List<Message>>> messages) {
         this.messages = messages;
     }
+
+    public List<Message> getMessagesOnly(){
+        List<Message> mes = new ArrayList<>();
+        for (HashMap<String, List<Message>> map : messages) {
+            for (List<Message> messageList : map.values()) {
+                mes.addAll(messageList);
+            }
+        }
+        return mes;
+    }
 }

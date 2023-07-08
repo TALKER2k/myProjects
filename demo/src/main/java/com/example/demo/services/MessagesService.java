@@ -27,4 +27,8 @@ public class MessagesService {
     public List<HashMap<String, List<Message>>> getAllList(){
         return messageRepository.getMessages();
     }
+
+    public List<Message> getMessage(){
+        return messageRepository.getMessagesOnly();
+    }
 }

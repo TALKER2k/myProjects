@@ -9,7 +9,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.*;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Controller
@@ -46,4 +50,40 @@ public class MessageController {
         messagesService.addNewMessages(userid, user.getId(),message);
         return "redirect:/sendmessage/" + userid;
     }
+
+    @GetMapping("/download")
+    public void downloadMessage(@RequestParam("message") String message, HttpServletResponse response) throws IOException {
+        String csvData = generateCsvData(message);
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=message.csv");
+        try (OutputStream outputStream = response.getOutputStream()) {
+            outputStream.write(csvData.getBytes());
+            outputStream.flush();
+        }
+    }
+
+    @GetMapping("/downloadAll")
+    public void downloadAllMessages(HttpServletResponse response) throws IOException {
+        StringBuilder csvData = new StringBuilder();
+        List<HashMap<String, List<Message>>> messages = messagesService.getAllList();
+        for (HashMap<String, List<Message>> map : messages) {
+            for (List<Message> messageList : map.values()) {
+                for (Message message : messageList) {
+                    csvData.append("id-").append(message.getName()).append(" : ").append(message.getText()).append("\n");
+                }
+            }
+        }
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=all_messages.csv");
+
+        try (OutputStream outputStream = response.getOutputStream()) {
+            outputStream.write(csvData.toString().getBytes());
+            outputStream.flush();
+        }
+    }
+
+    private String generateCsvData(String message) {
+        return "message\r\n" + message.substring(message.indexOf(":") + 1).trim();
+    }
+
 }
