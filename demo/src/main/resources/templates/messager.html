@@ -16,13 +16,17 @@
 
 <body>
 <div>
+    <input type="hidden" name="userid" value="${userid}">
     <div style="height: 400px; width: 50%; border: 3px #879AA8 solid">
         <ul class="no-bullet">
             <li th:each="message : ${messageList}">
                 <span th:text="${message}"></span>
                 <a th:href="@{'/download?message=' + ${message}}">Скачать</a>
+                <a th:href="@{'/delete/' + ${userid} + '/' + ${message.text}}"> Удалить</a>
+                <a th:href="@{'/editMessage/' + ${userid} + '/' + ${message.text}}"> Изменить</a>
             </li>
         </ul>
+
 
     </div>
     <form th:action="@{'/sendmessage/' + ${userid}}" method="POST">

@@ -84,4 +84,31 @@ public class MessageRepository {
         }
         return mes;
     }
+
+    public void deleteMessage(String message){
+        for (HashMap<String, List<Message>> map : messages) {
+            for (List<Message> messageList : map.values()) {
+                for (Iterator<Message> iterator = messageList.iterator(); iterator.hasNext();) {
+                    Message msg = iterator.next();
+                    if (msg.getText().equals(message)) {
+                        iterator.remove();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void editMessage(String oldMessage, String newMessage) {
+        for (HashMap<String, List<Message>> map : messages) {
+            for (List<Message> messageList : map.values()) {
+                for (Message message : messageList) {
+                    if (message.getText().equals(oldMessage)) {
+                        message.setText(newMessage);
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }

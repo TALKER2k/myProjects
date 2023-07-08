@@ -31,4 +31,12 @@ public class MessagesService {
     public List<Message> getMessage(){
         return messageRepository.getMessagesOnly();
     }
+
+    public void deleteMessage(String message) {
+        messageRepository.deleteMessage(message);
+    }
+
+    public void editMessage(String oldMessage, String NewMessage){
+        messageRepository.editMessage(oldMessage, NewMessage);
+    }
 }

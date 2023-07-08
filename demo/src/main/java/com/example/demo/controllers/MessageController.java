@@ -38,7 +38,8 @@ public class MessageController {
     }
 
     @GetMapping("/sendmessage/{userid}")
-    public String sendMessageForUser(@PathVariable(value = "userid") Long userid, @AuthenticationPrincipal User user, Model model){
+    public String sendMessageForUser(@PathVariable(value = "userid") Long userid,
+                                     @AuthenticationPrincipal User user, Model model){
         model.addAttribute("userid", userid);
         model.addAttribute("userMain", user.getId().toString());
         model.addAttribute("messageList", messagesService.getMessageById(user.getId(), userid));
@@ -46,13 +47,16 @@ public class MessageController {
     }
 
     @PostMapping("/sendmessage/{userid}")
-    public String sendMessageFor(@PathVariable(value = "userid") Long userid, @RequestParam(value = "message") String message, @AuthenticationPrincipal User user){
+    public String sendMessageFor(@PathVariable(value = "userid") Long userid,
+                                 @RequestParam(value = "message") String message,
+                                 @AuthenticationPrincipal User user){
         messagesService.addNewMessages(userid, user.getId(),message);
         return "redirect:/sendmessage/" + userid;
     }
 
     @GetMapping("/download")
-    public void downloadMessage(@RequestParam("message") String message, HttpServletResponse response) throws IOException {
+    public void downloadMessage(@RequestParam("message") String message,
+                                HttpServletResponse response) throws IOException {
         String csvData = generateCsvData(message);
         response.setContentType("text/csv");
         response.setHeader("Content-Disposition", "attachment; filename=message.csv");
@@ -81,6 +85,36 @@ public class MessageController {
             outputStream.flush();
         }
     }
+
+    @GetMapping("/delete/{userid}/{message}")
+    public String deleteMessage(@PathVariable(value = "message") String message,
+                                @PathVariable(value = "userid") Long userid) {
+        messagesService.deleteMessage(message);
+        return "redirect:/sendmessage/" + userid;
+    }
+
+    @GetMapping("/editMessage/{userid}/{messageText}")
+    public String editMessagePage(@PathVariable(value = "messageText") String messageText,
+                                  @PathVariable(value = "userid") Long userid, Model model) {
+        model.addAttribute("oldMessage", messageText);
+        return "editMessage";
+    }
+
+    @PostMapping("/edit/{userid}")
+    public String edit(@RequestParam("newMessage") String newMessage,
+                       @RequestParam("oldMessage") String oldMessage,
+                       @PathVariable(value = "userid") Long userid) {
+        messagesService.editMessage(oldMessage, newMessage);
+        return "redirect:/sendmessage/" + userid;
+    }
+
+    @PostMapping("/editMessage/{userid}/{messageText}")
+    public String editMessage(@PathVariable(value = "messageText") String messageText,
+                              @PathVariable(value = "userid") Long userid) {
+        return "/editMessage/" + userid + "/" + messageText;
+    }
+
+
 
     private String generateCsvData(String message) {
         return "message\r\n" + message.substring(message.indexOf(":") + 1).trim();
