@@ -1,6 +1,5 @@
 package com.example.demo.entities;
 
-//import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Set;

@@ -4,6 +4,7 @@ import com.example.demo.entities.Message;
 import com.example.demo.entities.User;
 import com.example.demo.services.MessagesService;
 import com.example.demo.services.UsersService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.*;
@@ -14,7 +15,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 @Controller
 public class MessageController {

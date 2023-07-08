@@ -2,7 +2,6 @@ package com.example.demo.repositories;
 
 
 import com.example.demo.entities.Message;
-import com.example.demo.entities.User;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

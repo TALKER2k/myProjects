@@ -1,6 +1,5 @@
 package com.example.demo.entities;
 
-//import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
@@ -21,20 +20,10 @@ public class User implements UserDetails {
     private String passwordConfirm;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
-    @Column(name = "status")
-    private Boolean status = false;
 
     ///////////////////////////////////////////////////
 
     public User() {
-    }
-
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
     }
 
     public Long getId() {

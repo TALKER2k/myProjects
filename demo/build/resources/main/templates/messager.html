@@ -7,7 +7,7 @@
             list-style-type: none;
         }
     </style>
-  <title>Вход</title>
+  <title>Переписка</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
@@ -15,12 +15,13 @@
 </head>
 
 <body>
-<div>
+<div style="margin: 20px">
     <input type="hidden" name="userid" value="${userid}">
+    <h5>Переписка</h5>
     <div style="height: 400px; width: 50%; border: 3px #879AA8 solid">
         <ul class="no-bullet">
             <li th:each="message : ${messageList}">
-                <span th:text="${message}"></span>
+                <span th:text="'id ' + ${message}"></span>
                 <a th:href="@{'/download?message=' + ${message}}">Скачать</a>
                 <a th:href="@{'/delete/' + ${userid} + '/' + ${message.text}}"> Удалить</a>
                 <a th:href="@{'/editMessage/' + ${userid} + '/' + ${message.text}}"> Изменить</a>
